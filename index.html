@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For a Flower 🌹</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  padding:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0a0a10;
+  font-family:'Playfair Display', serif;
+  color:#fff;
+  overflow:hidden;
+  text-align:center;
+}
+
+.petal{
+  position:absolute;
+  width:14px;
+  height:14px;
+  background:rgba(255,105,180,0.6);
+  border-radius:50%;
+  animation:fall linear infinite;
+  pointer-events:none;
+}
+
+@keyframes fall{
+  0%{transform:translateY(-40px) rotate(0deg);}
+  100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+.main{
+  max-width:540px;
+  padding:30px;
+  z-index:10;
+}
+
+#topGif{
+  width:130px;
+  margin:0 auto 25px;
+}
+
+#text{
+  font-size:20px;
+  line-height:2;
+  white-space:pre-wrap;
+  opacity:0;
+}
+
+#end{
+  margin-top:30px;
+  font-size:13px;
+  opacity:0.7;
+}
+
+#playMusic{
+  position:fixed;
+  top:15px;
+  right:15px;
+  background:rgba(255,105,180,0.85);
+  border:none;
+  padding:8px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:14px;
+  z-index:20;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+<button id="playMusic">Play Music</button>
+
+<script>
+for(let i=0;i<30;i++){
+  let p=document.createElement("div");
+  p.className="petal";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(6+Math.random()*6)+"s";
+  p.style.width=p.style.height=(10+Math.random()*12)+"px";
+  document.body.appendChild(p);
+}
+</script>
+
+<div class="main">
+  <img id="topGif" src="sparkle.gif" alt="love">
+  <div id="text"></div>
+  <div id="end">made with love by Aman 💌</div>
+</div>
+
+<script>
+const lines = [
+  "When God created you,",
+  "He must have taken his time —",
+  "not out of perfection,",
+  "but out of care.",
+
+  "Your eyes don’t just look at the world,",
+  "they quiet it.",
+  "And in your silence,",
+  "I find a peace",
+  "I never knew I was missing.",
+
+  "There is an ocean in the way you feel,",
+  "and a universe in the way you exist.",
+  "You don’t ask for attention —",
+  "you gently steal the heart.",
+
+  "If I’m honest,",
+  "before sending you to this world,",
+  "God may have paused,",
+  "afraid love would never feel complete again.",
+
+  "This Valentine’s Day,",
+  "I don’t promise perfection.",
+  "I promise presence,",
+  "and a love that chooses you —",
+  "every single day."
+];
+
+const textEl = document.getElementById("text");
+let line = 0;
+let char = 0;
+
+function typeEffect(){
+  if(line < lines.length){
+    if(char < lines[line].length){
+      textEl.innerHTML += lines[line].charAt(char);
+      char++;
+      setTimeout(typeEffect, 35);
+    } else {
+      textEl.innerHTML += "\n\n";
+      line++;
+      char = 0;
+      setTimeout(typeEffect, 400);
+    }
+  }
+}
+
+window.onload = () => {
+  textEl.style.opacity = 1;
+  typeEffect();
+};
+
+const music = document.getElementById("music");
+document.getElementById("playMusic").onclick = () => {
+  music.play();
+  document.getElementById("playMusic").style.display = "none";
+};
+</script>
+
+</body>
+</html>
