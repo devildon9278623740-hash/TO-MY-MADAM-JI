@@ -1,164 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For a Flower 🌹</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<title>For my madam ji 🌸</title>
 
 <style>
 body{
-  margin:0;
-  padding:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#0a0a10;
-  font-family:'Playfair Display', serif;
-  color:#fff;
-  overflow:hidden;
-  text-align:center;
+background:#0f0f14;
+color:white;
+font-family:Arial;
+text-align:center;
+padding:40px;
+overflow-x:hidden;
 }
 
-.petal{
-  position:absolute;
-  width:14px;
-  height:14px;
-  background:rgba(255,105,180,0.6);
-  border-radius:50%;
-  animation:fall linear infinite;
-  pointer-events:none;
+/* CARD */
+.card{
+max-width:650px;
+margin:auto;
+background:#181820;
+padding:30px;
+border-radius:20px;
+position:relative;
+z-index:2;
+}
+
+/* BUTTON */
+button{
+padding:12px 22px;
+border:none;
+border-radius:25px;
+background:#ff4d6d;
+color:white;
+font-size:16px;
+margin-top:18px;
+cursor:pointer;
+}
+
+img{
+width:90%;
+border-radius:14px;
+margin-top:18px;
+transition:0.4s;
+}
+
+#secret{display:none;margin-top:10px;color:#ff4d6d;}
+#gallery{display:none;}
+#finalMessage{display:none;}
+.gallery-image{opacity:1;transition:0.4s;}
+
+/* 🌸 HEARTS */
+.heart{
+position:fixed;
+top:-20px;
+font-size:18px;
+animation:fall linear forwards;
+pointer-events:none;
+z-index:1;
+}
+
+/* 🌸 FLOWERS */
+.flower{
+position:fixed;
+top:-20px;
+font-size:20px;
+animation:fall linear forwards;
+pointer-events:none;
+z-index:1;
 }
 
 @keyframes fall{
-  0%{transform:translateY(-40px) rotate(0deg);}
-  100%{transform:translateY(110vh) rotate(360deg);}
+to{
+transform:translateY(110vh) rotate(360deg);
+opacity:0.3;
 }
-
-.main{
-  max-width:540px;
-  padding:30px;
-  z-index:10;
-}
-
-#topGif{
-  width:130px;
-  margin:0 auto 25px;
-}
-
-#text{
-  font-size:20px;
-  line-height:2;
-  white-space:pre-wrap;
-  opacity:0;
-}
-
-#end{
-  margin-top:30px;
-  font-size:13px;
-  opacity:0.7;
-}
-
-#playMusic{
-  position:fixed;
-  top:15px;
-  right:15px;
-  background:rgba(255,105,180,0.85);
-  border:none;
-  padding:8px 14px;
-  border-radius:20px;
-  cursor:pointer;
-  font-size:14px;
-  z-index:20;
 }
 </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-<button id="playMusic">Play Music</button>
+<div class="card">
 
-<script>
-for(let i=0;i<30;i++){
-  let p=document.createElement("div");
-  p.className="petal";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(6+Math.random()*6)+"s";
-  p.style.width=p.style.height=(10+Math.random()*12)+"px";
-  document.body.appendChild(p);
-}
-</script>
+<h1 onclick="showSecret()">For LOVELY 🌸</h1>
 
-<div class="main">
-  <img id="topGif" src="sparkle.gif" alt="love">
-  <div id="text"></div>
-  <div id="end">made with love by Aman 💌</div>
+<p>Little badmash. Pretty. Funny. smart. dumb but lovable. Short but super cute.</p>
+
+<img src="fav.jpg">
+
+<p>I don’t need a special day to love you, but today I’m grateful the world celebrates what I feel. 💖</p>
+
+<div id="secret">💌 Always smiling for you</div>
+
+<button id="magicBtn">Click Me ✨</button>
+
+<div id="gallery">
+<img src="img1.jpg" class="gallery-image">
 </div>
 
+<button id="nextBtn" style="display:none;">Next Image ➡️</button>
+<button id="finalBtn" style="display:none;">One Last Message 💌</button>
+
+<div id="finalMessage">
+<img src="final.jpg" id="finalImg">
+<p style="color:#ff4d6d;">
+Stop being this cute, I’m running out of self-control 💐
+</p>
+<button id="endBtn" style="display:none;">END 💐</button>
+</div>
+
+</div>
+
+<audio id="bgm" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-const lines = [
-  "When God created you,",
-  "He must have taken his time —",
-  "not out of perfection,",
-  "but out of care.",
-
-  "Your eyes don’t just look at the world,",
-  "they quiet it.",
-  "And in your silence,",
-  "I find a peace",
-  "I never knew I was missing.",
-
-  "There is an ocean in the way you feel,",
-  "and a universe in the way you exist.",
-  "You don’t ask for attention —",
-  "you gently steal the heart.",
-
-  "If I’m honest,",
-  "before sending you to this world,",
-  "God may have paused,",
-  "afraid love would never feel complete again.",
-
-  "This Valentine’s Day,",
-  "I don’t promise perfection.",
-  "I promise presence,",
-  "and a love that chooses you —",
-  "every single day."
-];
-
-const textEl = document.getElementById("text");
-let line = 0;
-let char = 0;
-
-function typeEffect(){
-  if(line < lines.length){
-    if(char < lines[line].length){
-      textEl.innerHTML += lines[line].charAt(char);
-      char++;
-      setTimeout(typeEffect, 35);
-    } else {
-      textEl.innerHTML += "\n\n";
-      line++;
-      char = 0;
-      setTimeout(typeEffect, 400);
-    }
-  }
+function showSecret(){
+document.getElementById("secret").style.display="block";
 }
 
-window.onload = () => {
-  textEl.style.opacity = 1;
-  typeEffect();
+let images=["img1.jpg","img2.jpg","img3.jpg"];
+let index=0;
+
+// START BUTTON
+magicBtn.onclick=function(){
+bgm.currentTime=0;
+bgm.play().catch(()=>{});
+gallery.style.display="block";
+nextBtn.style.display="inline-block";
+this.style.display="none";
 };
 
-const music = document.getElementById("music");
-document.getElementById("playMusic").onclick = () => {
-  music.play();
-  document.getElementById("playMusic").style.display = "none";
+// NEXT BUTTON
+nextBtn.onclick=function(){
+let img=document.querySelector(".gallery-image");
+img.style.opacity=0;
+
+setTimeout(()=>{
+index++;
+img.src=images[index];
+img.style.opacity=1;
+
+if(index>=images.length-1){
+nextBtn.style.display="none";
+finalBtn.style.display="inline-block";
+}
+},400);
 };
+
+// FINAL BUTTON
+finalBtn.onclick=function(){
+gallery.style.display="none";
+finalMessage.style.display="block";
+finalImg.style.transform="scale(0)";
+setTimeout(()=>{ finalImg.style.transform="scale(1)"; },50);
+finalBtn.style.display="none";
+endBtn.style.display="inline-block";
+};
+
+// END BUTTON
+endBtn.onclick=function(){
+bgm.pause();
+bgm.currentTime=0;
+document.body.innerHTML="";
+let text="made by HOTOKE for chhoti celebrity";
+let i=0;
+let p=document.createElement("p");
+p.style.fontSize="24px";
+p.style.color="#ff4d6d";
+p.style.marginTop="120px";
+document.body.appendChild(p);
+
+function type(){
+if(i<text.length){
+p.innerHTML+=text.charAt(i);
+i++;
+setTimeout(type,80);
+}
+}
+type();
+};
+
+/* 🌸 FLOATING HEARTS */
+function createHeart(){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),10000);
+}
+
+/* 🌸 FALLING FLOWERS */
+function createFlower(){
+let flower=document.createElement("div");
+flower.className="flower";
+flower.innerHTML="🌸";
+flower.style.left=Math.random()*100+"vw";
+flower.style.animationDuration=(6+Math.random()*6)+"s";
+document.body.appendChild(flower);
+setTimeout(()=>flower.remove(),12000);
+}
+
+/* spawn loops */
+setInterval(createHeart,900);
+setInterval(createFlower,1200);
 </script>
 
 </body>
